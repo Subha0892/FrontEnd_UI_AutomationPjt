@@ -6,22 +6,24 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import stepDefinitions.baseClass;
 
 public class subscriptionPage {
 
-	@FindBy(xpath="//*[@id=\"main\"]/div/h2")
-	  @CacheLookup
+	@FindBy(xpath="//*[@id='main']/div/h2")
+	@CacheLookup
 	  WebElement subscriptionPageHeader;
 
 	@FindBy(xpath ="//*[@id='country-name']")
 	public
 	  WebElement currentCountryName;
 
-	@FindBy(xpath ="//*[@id='bh']")
+	@FindBy(xpath ="//*[@id='country-selct']")
+	 WebElement selectCountryPopup;
+	
+	@FindBy(xpath ="//*[@id='bh-contry-lable']")
 	  WebElement bahrainCountry;
 
-	@FindBy(xpath ="//*[@id='kw']")
+	@FindBy(xpath ="//*[@id='kw-contry-lable']")
 	  WebElement kuwaitCountry;
 
 	@FindBy(xpath ="//*[@id='name-lite']")
@@ -41,11 +43,12 @@ public class subscriptionPage {
 
 	@FindBy(xpath ="//div[@id='currency-premium']")
 	  WebElement currencyPremium;
-	
+
+	private String currentCountry;
+
 	public subscriptionPage(WebDriver driver)
 	{
-        super();
-        PageFactory.initElements( driver, this);
+       PageFactory.initElements( driver, this);
     }
 	
 
@@ -55,7 +58,7 @@ public class subscriptionPage {
 
 	public void compareCountryName(String countryName) {
 
-		String currentCountry = currentCountryName.getText();
+		 currentCountry = currentCountryName.getText();
 		if(!currentCountry.equals(countryName)) {
 			changeCountry(countryName);
 		}
@@ -64,11 +67,16 @@ public class subscriptionPage {
 	public void changeCountry(String countryName) {
 
 		currentCountryName.click();
-		if(countryName.equals("Bahrain")) {
+		selectCountryPopup.isDisplayed();
+		if(countryName.equals("Bahrain")) {	
 			bahrainCountry.click();
 		} else if(countryName.equals("Kuwait")){
 			kuwaitCountry.click();
 		}
+	}
+	
+	public String getCurrentCountry() {
+		return currentCountry = currentCountryName.getText();
 	}
 
 	public String validatePriceForEachType(String PlanType, String Cost) {

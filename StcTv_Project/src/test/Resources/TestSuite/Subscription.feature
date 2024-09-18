@@ -1,6 +1,6 @@
 Feature: Subscription Feature
 
-Scenario Outline: To verify the subscription package type and price for each country 
+  Scenario Outline: To verify the subscription package type and price for each country 
 	Given User is on Subscribe Page
 	When User selects the "KSA" location at the right top of the page
   Then User should be able to see "<PlanType>" having "<Cost>" per month
@@ -10,7 +10,7 @@ Examples:
     |Lite     |15 SAR|
     |Classic  |25 SAR|
     |Premium  |60 SAR|
-    
+  
 	Scenario Outline: To verify the subscription package type and price for each country 
 	Given User is on Subscribe Page
 	When User selects the "Kuwait" location at the right top of the page

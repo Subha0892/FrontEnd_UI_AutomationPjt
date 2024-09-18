@@ -2,6 +2,7 @@ package stepDefinitions;
 
 import java.time.Duration;
 
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,7 +18,8 @@ import static org.hamcrest.CoreMatchers.containsString;
 
 public class subscriptionSteps {
 	
-	public static WebDriver driver;
+	public static WebDriver driver = new ChromeDriver();
+	
 	public subscriptionPage subscriptionPage= new subscriptionPage(driver);
 	
 	@Given("User is on Subscribe Page")
@@ -26,7 +28,6 @@ public class subscriptionSteps {
 		
 		final int TIMEOUT = 30;
 		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
 		new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
 		driver.manage().window().maximize();
 		driver.get("https://subscribe.stctv.com/sa-en");
@@ -36,7 +37,11 @@ public class subscriptionSteps {
 
 	@When("^User selects the \"([^\"]*)\" location at the right top of the page$")
 	  public void user_selects_Location(String arg1) {
+		
 		subscriptionPage.compareCountryName(arg1);
+		String currentCountryActual = subscriptionPage.getCurrentCountry();
+		Assert.assertTrue(currentCountryActual.equalsIgnoreCase(arg1));
+		
 	}
 
 	@Then("^User should be able to see \"([^\"]*)\" having \"([^\"]*)\" per month$")
@@ -44,6 +49,7 @@ public class subscriptionSteps {
 		
 		String currencyActualValue = subscriptionPage.validatePriceForEachType(arg1, arg2);
 		assertThat(currencyActualValue,containsString(arg2));
+		
 	}
 
 
